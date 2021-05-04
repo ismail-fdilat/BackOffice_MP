@@ -12,9 +12,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Shop $shop)
     {
-        //
+        return $shop->Orders;
     }
 
     /**
@@ -33,7 +33,7 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $shop)
     {
         $val = $request->cookie('Cart_Hash');
 
@@ -82,7 +82,7 @@ class OrderController extends Controller
         // id of the Client ;
         $order->user_id = $request->user_id;
         //Shop id to add
-        $order->shop_id = $request->shop_id;
+        $order->shop_id = $shop;
 
         if (request('payment_method') == 'paypal') {
             $order->payment_method = 'paypal';

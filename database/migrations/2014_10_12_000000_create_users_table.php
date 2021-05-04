@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->enum('role', ['client','admin'])->default('client');
+            $table->unsignedBigInteger('shop_id');
         });
     }
 

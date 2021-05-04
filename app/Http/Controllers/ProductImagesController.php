@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Model\Review;
-use App\Models\Model\Product;
+use App\Models\ProductImages;
 use Illuminate\Http\Request;
 
-use App\Http\Resources\ReviewResource;
-
-use App\Http\Requests\ReviewRequest;
-
-class ReviewController extends Controller
+class ProductImagesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +14,7 @@ class ReviewController extends Controller
      */
     public function index(Product $product)
     {
-        return ReviewResource::collection($product->reviews);
+        return $product->images;
     }
 
     /**
@@ -38,22 +33,22 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ReviewRequest $request, Product $product)
+    public function store(Request $request, Product $product)
     {
-        $review = new Review($request->all());
-        $product->reviews()->save($review) ;
+        $PI = new ProductImages($request->all());
+        $product->images()->save($PI) ;
         return response([
-            'data'=> new ReviewResource($review)
+            'data'=> $PI
         ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Model\Review  $review
+     * @param  \App\Models\ProductImages  $productImages
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show(ProductImages $productImages)
     {
         //
     }
@@ -61,10 +56,10 @@ class ReviewController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Model\Review  $review
+     * @param  \App\Models\ProductImages  $productImages
      * @return \Illuminate\Http\Response
      */
-    public function edit(Review $review)
+    public function edit(ProductImages $productImages)
     {
         //
     }
@@ -73,30 +68,22 @@ class ReviewController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Model\Review  $review
+     * @param  \App\Models\ProductImages  $productImages
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product, $id)
+    public function update(Request $request, ProductImages $productImages)
     {
-        $review = Review::where('id', '=', $id)->first();
-
-        $review->update($request->all());
-        return response([
-            'data'=> new ReviewResource($review)
-        ], 201);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Model\Review  $review
+     * @param  \App\Models\ProductImages  $productImages
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product, $id)
+    public function destroy($productImages)
     {
-        // $review = Review::where('id', '=', $id)->first();
-
-        Review::destroy($id);
+        ProductImages::destroy($id);
         return response(null, 204);
     }
 }

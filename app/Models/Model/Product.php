@@ -7,13 +7,14 @@ use App\Models\Shop;
 use App\Models\Categories;
 
 use App\Models\Model\Review;
+use App\Models\ProductImages;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
     protected $fillable = [
-           "name","detail","stock","price","discount","user_id"
+           "name","detail","stock","price","discount","shop_id","hero_image"
     ];
     public function reviews()
     {
@@ -26,6 +27,10 @@ class Product extends Model
     public function categorie()
     {
         return $this->belongsTo(Categories::class);
+    }
+    public function images()
+    {
+        return $this->hasMany(ProductImages::class) ;
     }
     use HasFactory;
 }

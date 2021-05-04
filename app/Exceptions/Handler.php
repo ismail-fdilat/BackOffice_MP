@@ -55,9 +55,14 @@ class Handler extends ExceptionHandler
             if ($e->getPrevious() instanceof ModelNotFoundException) {
                 return response('The specified Model cannot be  found.', 404);
             }
-            if ($e instanceof UrlGenerationException) {
-                return response(['message'=>'unauthonticated.'], 401);
-            }
+            // if ($e instanceof UrlGenerationException) {
+            //     return response(
+            //         ['message'=>'unauthenticated. or something else',
+            //          'exception'=> $e
+            //         ],
+            //         401
+            //     );
+            // }
 
             // return get_class($e);
         });

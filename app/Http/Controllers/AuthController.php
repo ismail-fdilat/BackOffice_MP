@@ -28,7 +28,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
+            'password' => bcrypt($fields['password']),
+            'shop_id'=> $shop
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -53,15 +54,14 @@ class AuthController extends Controller
 
         // Check email
         $user = User::where('email', $fields['email'])->first();
-        $Stores = Shop::where('user_id', $user->id)->get();
-        foreach ($Stores as $store) {
-            // Check Store
-            if ($store->id != $shop->id) {
-                return response([
+        $shoper = user::where('shop_id', $shop)->get();
+        // Check Store
+        if (!$shoper) {
+            return response([
                 'message' => 'No user found'
             ], 401);
-            }
         }
+
 
         // Check password
         if (!$user || !Hash::check($fields['password'], $user->password)) {
@@ -95,15 +95,23 @@ class AuthController extends Controller
 
         // Check email
         $user = User::where('email', $fields['email'])->first();
-        $Stores = Shop::where('user_id', $user->id)->get();
-        foreach ($Stores as $store) {
-            // Check Store
-            if ($store->id != $shop->id) {
-                return response([
+        //$Stores = Shop::where('user_id', $user->id)->get();
+        $shoper = user::where('shop_id', $shop)->get();
+
+        if (!$shoper) {
+            return response([
                 'message' => 'No user found'
             ], 401);
-            }
         }
+
+        // foreach ($Stores as $store) {
+        //     // Check Store
+        //     if ($store->id != $shop->id) {
+        //         return response([
+        //         'message' => 'No user found'
+        //     ], 401);
+        //     }
+        // }
 
         // Check password
 

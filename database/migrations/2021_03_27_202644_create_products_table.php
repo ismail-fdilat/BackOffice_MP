@@ -15,8 +15,6 @@ class CreateProductsTable extends Migration
     {
         if (Schema::hasTable('shops')) {
             // The "shops" table exists...
-
-
             Schema::create('products', function (Blueprint $table) {
                 $table->id();
                 // $table->bigInteger('shop_id')->unsigned()->index();
@@ -31,6 +29,12 @@ class CreateProductsTable extends Migration
                 $table->integer('price');
                 $table->integer('stock');
                 $table->integer('discount');
+                $table->integer('quantity');
+
+                $table->boolean('status');
+                $table->string('provider');
+
+                $table->float('weight');
                 $table->string('hero_image')->nullable();
                 $table->timestamps();
             });

@@ -50,11 +50,11 @@ Route::group(['prefix'=>'/Shop'], function () {
 
     // ORder Routes :
     Route::middleware('auth:sanctum')->apiResource('{shop}/Orders', OrderController::class);
-}) ;
-//Specific Product Reviews
- Route::group(['prefix'=>'/Products'], function () {
-     Route::apiResource('/{product}/Reviews', ReviewController::class);
- }) ;
+});
+    //Specific Product Reviews
+    Route::group(['prefix'=>'/Products'], function () {
+        Route::apiResource('/{product}/Reviews', ReviewController::class);
+    }) ;
 
 // create new shop
 Route::post('/newShop', [ShopController::class,'newStore'])->name('Shop.newStore');

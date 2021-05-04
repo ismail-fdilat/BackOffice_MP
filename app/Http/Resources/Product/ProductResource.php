@@ -18,20 +18,20 @@ class ProductResource extends JsonResource
             'name'=>$this->name,
 
             'detail'=>$this->detail,
-            
+
             'price' =>$this->price,
 
             'TotalPrice'=>round($this->price-$this->price*$this->discount/100, 2),
-            
+
             'stock'=>$this->stock >0 ?$this->stock : "out of stock",
 
             'discount'=>$this->discount,
 
             'rating'=>$this->reviews->count()>0 ? round($this->reviews->sum('star')/$this->reviews->count()):'no rating found',
 
-            'images'=>["https://source.unsplash.com/3000x3000/?product",
-                       "https://source.unsplash.com/3000x3000/?product",
-                       "https://source.unsplash.com/3000x3000/?product"],
+            'hero_image'=> $this->hero_image,
+
+            'images'=>$this->images,
 
             'href'=>[
                 'reviews'=> route('Reviews.index', $this->id)

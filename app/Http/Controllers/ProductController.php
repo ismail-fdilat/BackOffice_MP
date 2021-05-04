@@ -61,8 +61,11 @@ class ProductController extends Controller
 
         $product->shop_id = $shop_id;
 
-        $category = Categories::findOrFail($request->Category);
+        $product->hero_image=$request->hero_image;
 
+        $category = Categories::findOrFail($request->category);
+
+        $product->category()->attach($category);
         //saving product by category
         $category->$product->save();
         //return 'ok';
