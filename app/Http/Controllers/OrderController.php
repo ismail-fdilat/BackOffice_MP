@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('auth:sanctum')->except('index', 'show');
+        $this->middleware('cors');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -96,7 +101,7 @@ class OrderController extends Controller
             $order->items()->attach($item->id, ['price'=> $item->price, 'quantity'=> $item->quantity]);
         }
 
-        $order->generateSubOrders();
+        // $order->generateSubOrders();
 
         if (request('payment_method') == 'paypal') {
             return "paypal";

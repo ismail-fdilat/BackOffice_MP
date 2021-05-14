@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProductImages;
 use Illuminate\Http\Request;
+
+use App\Models\Model\Product;
+use App\Models\ProductImages;
+use Illuminate\Support\Facades\File;
 
 class ProductImagesController extends Controller
 {
@@ -14,7 +17,14 @@ class ProductImagesController extends Controller
      */
     public function index(Product $product)
     {
-        return $product->images;
+        $imgurl=[];
+        foreach ($product->images as $image) {
+            array_push($imgurl, ['id'=>$image->id, 'image'=>$image->images]);
+        } ;
+        return response([
+            'images'=>$imgurl
+        ], 200);
+        //return $product->images;
     }
 
     /**
@@ -35,10 +45,17 @@ class ProductImagesController extends Controller
      */
     public function store(Request $request, Product $product)
     {
+        $imageName = time().'.'.$product->id.'.'.$request->images->extension();
+
+        $request->images->move(public_path('images/products'), $imageName);
+
         $PI = new ProductImages($request->all());
+
+        $PI->images='images/products/'.$imageName;
+
         $product->images()->save($PI) ;
         return response([
-            'data'=> $PI
+            'data'=> 'images/products/'.$imageName
         ], 201);
     }
 
@@ -48,9 +65,10 @@ class ProductImagesController extends Controller
      * @param  \App\Models\ProductImages  $productImages
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductImages $productImages)
+    public function show($product, $id)
     {
-        //
+        $Image = ProductImages::findOrFail($id);
+        return response(["data"=>$Image], 201);
     }
 
     /**
@@ -81,9 +99,11 @@ class ProductImagesController extends Controller
      * @param  \App\Models\ProductImages  $productImages
      * @return \Illuminate\Http\Response
      */
-    public function destroy($productImages)
+    public function destroy($product, $id)
     {
+        $Image = ProductImages::findOrFail($id);
+        File::delete(public_path('/').$Image->images);
         ProductImages::destroy($id);
-        return response(null, 204);
+        return response(["data"=>$Image], 201);
     }
 }

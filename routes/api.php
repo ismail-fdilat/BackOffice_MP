@@ -11,6 +11,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ExternPoductController;
+use App\Http\Controllers\ProductImagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,7 @@ Route::group(['prefix'=>'/Shop'], function () {
     Route::delete('{shop}/Products/{id}', [ProductController::class,'destroy'])->name('Products.destroy');
 
     // Product categories
-    Route::apiResource('{shop}/Category', CategoriesController::class);
+    Route::middleware('cors')->apiResource('{shop}/Category', CategoriesController::class);
 
     //Logout from a shop
     Route::middleware('auth:sanctum')->post('{shop}/logout', [AuthController::class, 'logout']);
@@ -54,6 +55,7 @@ Route::group(['prefix'=>'/Shop'], function () {
     //Specific Product Reviews
     Route::group(['prefix'=>'/Products'], function () {
         Route::apiResource('/{product}/Reviews', ReviewController::class);
+        Route::apiResource('/{product}/Images', ProductImagesController::class);
     }) ;
 
 // create new shop

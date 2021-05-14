@@ -16,10 +16,10 @@ class Categories extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_categories');
+        return $this->belongsToMany(Product::class, 'product_categories', "categorie_id");
     }
 
-    public function allProducts()
+    public function getallProducts()
     {
         $allProducts = collect([]);
 

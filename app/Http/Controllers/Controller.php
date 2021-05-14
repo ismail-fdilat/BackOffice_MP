@@ -9,5 +9,10 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
+    public function __construct()
+    {
+        // $this->middleware('auth:sanctum')->except('index', 'show');
+        $this->middleware('cors');
+    }
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

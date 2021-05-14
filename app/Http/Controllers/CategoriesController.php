@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('auth:sanctum')->except('index', 'show');
+        $this->middleware('cors');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -40,20 +45,26 @@ class CategoriesController extends Controller
 
         $category->name = $request->name;
 
-        $category->parent_id = $request->parent_id;
-
-        $category->order = $request->order;
-
         $category->slug = $request->slug;
 
         $category->shop_id = $shop_id;
+        //saving linked to the parent category
+        if ($request->parent_id != null) {
+            $pcategory = Categories::findOrFail($request->parent_id);
+            $category->order = $pcategory->order +1;
+            $pcategory->children()->save($category);
+        } else {
 
+        //saving as the root parent category
 
-        $category->save();
+            $category->order = 0;
+            $category->save();
+        }
+
         //return 'ok';
         return response([
             "data"=> $category
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -62,13 +73,16 @@ class CategoriesController extends Controller
      * @param  \App\Models\Categories  $categories
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Categories $category)
+    public function show($shop_id, $cid)
     {
+        $category= Categories::findOrFail($cid);
+
+
         return response([
                 'category' => $category,
-                'children'=>$category->children,
-                'products'=>$category->products
-            ], 401);
+               // 'childrenofthecategory'=>$category->children,
+                'Allproducts'=>$category->getallProducts()
+            ], 200);
     }
 
     /**
@@ -89,9 +103,15 @@ class CategoriesController extends Controller
      * @param  \App\Models\Categories  $categories
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Categories $categories)
+    public function update(Request $request, $shop_id, $id)
     {
-        //
+        $categories = Categories::where('id', '=', $id)->first();
+
+        $categories->update($request->all());
+
+        return response([
+            "data"=> $categories
+        ], 201);
     }
 
     /**
@@ -100,8 +120,12 @@ class CategoriesController extends Controller
      * @param  \App\Models\Categories  $categories
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categories $categories)
+    public function destroy($shop_id, $categories)
     {
-        //
+        Shop::destroy($categories);
+        return response(
+            null,
+            204
+        );
     }
 }

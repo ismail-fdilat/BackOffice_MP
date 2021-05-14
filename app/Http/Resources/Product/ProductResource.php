@@ -31,10 +31,10 @@ class ProductResource extends JsonResource
 
             'hero_image'=> $this->hero_image,
 
-            'images'=>$this->images,
 
             'href'=>[
-                'reviews'=> route('Reviews.index', $this->id)
+                'reviews'=> route('Reviews.index', $this->id),
+                'images'=>route('Images.index', $this->id)
             ]
 
         ];

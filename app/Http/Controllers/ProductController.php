@@ -12,12 +12,14 @@ use App\Exceptions\ProductNotBelongsToUser;
 use App\Http\Resources\Product\ProductCollection;
 
 use App\Http\Requests\ProductRequest;
+use App\Models\Categories;
 
 class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('index', 'show');
+        // $this->middleware('auth:sanctum')->except('index', 'show');
+        $this->middleware('cors');
     }
     /**
      * Display a listing of the resource.
@@ -61,13 +63,12 @@ class ProductController extends Controller
 
         $product->shop_id = $shop_id;
 
-        $product->hero_image=$request->hero_image;
-
         $category = Categories::findOrFail($request->category);
+        //saving product by category
+        $product->save();
 
         $product->category()->attach($category);
-        //saving product by category
-        $category->$product->save();
+
         //return 'ok';
         return response([
             "data"=> new ProductResource($product)
