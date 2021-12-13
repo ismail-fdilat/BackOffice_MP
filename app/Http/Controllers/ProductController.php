@@ -61,14 +61,19 @@ class ProductController extends Controller
 
         $product->discount = $request->discount;
 
-        $product->shop_id = $shop_id;
+        $product->min_stock = $request->min_stock;
 
-        $category = Categories::findOrFail($request->category);
-        //saving product by category
+        $product->status = $request->status;
+
+        $product->shop_id = $shop_id;
         $product->save();
 
-        $product->category()->attach($category);
+        if ($request->category) {
+            $category = Categories::findOrFail($request->category);
+            //saving product by category
 
+            $product->category()->attach($category);
+        }
         //return 'ok';
         return response([
             "data"=> new ProductResource($product)

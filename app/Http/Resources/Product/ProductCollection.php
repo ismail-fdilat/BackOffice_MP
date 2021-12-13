@@ -15,6 +15,7 @@ class ProductCollection extends JsonResource
      */
     public function toArray($request)
     {
+
         // implode(" ", array_splice((explode(" ", $this->detail))));
         return[
             'name'=> $this->name,
@@ -22,7 +23,7 @@ class ProductCollection extends JsonResource
             'price' => $this->price,
 
             'TotalPrice'=> round($this->price-$this->price*$this->discount/100, 2),
-            
+
             'stock'=> $this->stock >0 ?$this->stock : "out of stock",
 
             'rating'=> $this->reviews->count()>0 ? round($this->reviews->sum('star')/$this->reviews->count()):'no rating found',

@@ -120,7 +120,11 @@ class ShopController extends Controller
     public function show($id)
     {
         $shop= Shop::findOrFail($id);
-        return [$shop->owner->name, ' welcome to your shop named ', $shop->name];
+        $users=User::where('shop_id', '=', $shop->id)->get();
+
+        return response(["owner"=>$shop->owner->name,
+                         "shopname"=>$shop->name,
+                          "users"=>$users ], 200);
     }
 
     /**

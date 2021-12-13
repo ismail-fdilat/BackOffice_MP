@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shop;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class OrderController extends Controller
      */
     public function index(Shop $shop)
     {
-        return $shop->Orders;
+        return Order::All();
     }
 
     /**
@@ -53,7 +54,7 @@ class OrderController extends Controller
             'shipping_address' => 'required',
             'shipping_phone' => 'required',
             'shipping_zipcode' => 'required',
-            'payment_method' => 'required',
+            // 'payment_method' => 'required',
         ]);
 
         $order = new Order();

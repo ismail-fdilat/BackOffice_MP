@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Product extends Model
 {
     protected $fillable = [
-           "name","detail","stock","price","discount","shop_id","hero_image"
+           "name","detail","stock","price","discount","shop_id","min-stock","status"
     ];
     public function reviews()
     {

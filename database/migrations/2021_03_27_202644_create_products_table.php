@@ -27,20 +27,19 @@ class CreateProductsTable extends Migration
                 $table->string('name');
                 $table->string('detail');
                 $table->integer('price');
+
                 $table->integer('stock');
+                $table->integer('min_stock');
                 $table->integer('discount');
-                $table->integer('quantity');
 
-                $table->boolean('status');
-                $table->string('provider');
+                $table->boolean('status')->default(0);
+                $table->string('provider')->nullable(true);
 
-                $table->float('weight');
-                $table->string('hero_image')->nullable();
+                $table->float('weight')->nullable(true);
                 $table->timestamps();
             });
         }
     }
-
 
     /**
      * Reverse the migrations.

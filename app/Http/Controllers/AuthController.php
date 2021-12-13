@@ -24,7 +24,6 @@ class AuthController extends Controller
             'email' => 'required|string',
             'password' => 'required|string'
         ]);
-
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
@@ -79,12 +78,6 @@ class AuthController extends Controller
 
         return response($response, 201);
     }
-
-
-
-
-
-
 
     public function Adminlogin(Request $request, Shop $shop)
     {

@@ -92,7 +92,7 @@ class CartController extends Controller
         $id = $Product->id;
         $name = $Product->name;
         $price = $Product->price;
-        $qty = $Product->stock;
+        $qty = 1;
 
         $customAttributes = [
             'color_attr' => [
@@ -137,7 +137,7 @@ class CartController extends Controller
 
 
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $shop, $id)
     {
         $val = $request->cookie('Cart_Hash');
 
@@ -176,7 +176,6 @@ class CartController extends Controller
         ), 201, []);
         }
 
-
         //coupon logic
         $condition = new \Darryldecode\Cart\CartCondition(array(
             'name' => $couponData->name,
@@ -191,10 +190,7 @@ class CartController extends Controller
             return 0;
         }
 
-
-
         Cart::session($val)->condition($condition); // for a speicifc user's cart
-
 
         return response(array(
             'message' => "coupon applied",

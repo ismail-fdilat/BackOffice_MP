@@ -26,36 +26,36 @@ use App\Http\Controllers\ProductImagesController;
 // Products and registring apis
 
 //Shop Routes
-Route::apiResource('/Shop', ShopController::class);
+Route::apiResource('/shop', ShopController::class);
 // Prefix of a specific shop
-Route::group(['prefix'=>'/Shop'], function () {
+Route::group(['prefix'=>'/shop'], function () {
 
     //Registring to a shop Routes
     Route::post('{shop}/register', [AuthController::class, 'register'])->name('register');
     Route::post('{shop}/login', [AuthController::class, 'login'])->name('login');
-    Route::post('{shop}/Admin', [AuthController::class, 'Adminlogin'])->name('Adminlogin');
+    Route::post('{shop}/admin', [AuthController::class, 'Adminlogin'])->name('Adminlogin');
 
     //Route::apiResource('/Products', ProductController::class);
-    Route::get('{shop}/Products', [ProductController::class,'index'])->name('Products.index');
-    Route::get('{shop}/Products/{id}', [ProductController::class,'show'])->name('Products.show');
+    Route::get('{shop}/products', [ProductController::class,'index'])->name('Products.index');
+    Route::get('{shop}/products/{id}', [ProductController::class,'show'])->name('Products.show');
     Route::get('{shop}/products/search/{name}', [ProductController::class, 'search']);
-    Route::post('{shop}/Products', [ProductController::class,'store'])->name('Products.store');
-    Route::put('{shop}/Products/{id}', [ProductController::class,'update'])->name('Products.update');
-    Route::delete('{shop}/Products/{id}', [ProductController::class,'destroy'])->name('Products.destroy');
+    Route::post('{shop}/products', [ProductController::class,'store'])->name('Products.store');
+    Route::put('{shop}/products/{id}', [ProductController::class,'update'])->name('Products.update');
+    Route::delete('{shop}/products/{id}', [ProductController::class,'destroy'])->name('Products.destroy');
 
     // Product categories
-    Route::middleware('cors')->apiResource('{shop}/Category', CategoriesController::class);
+    Route::middleware('cors')->apiResource('{shop}/category', CategoriesController::class);
 
     //Logout from a shop
     Route::middleware('auth:sanctum')->post('{shop}/logout', [AuthController::class, 'logout']);
 
     // ORder Routes :
-    Route::middleware('auth:sanctum')->apiResource('{shop}/Orders', OrderController::class);
+    Route::apiResource('{shop}/orders', OrderController::class);
 });
     //Specific Product Reviews
-    Route::group(['prefix'=>'/Products'], function () {
-        Route::apiResource('/{product}/Reviews', ReviewController::class);
-        Route::apiResource('/{product}/Images', ProductImagesController::class);
+    Route::group(['prefix'=>'/products'], function () {
+        Route::apiResource('/{product}/reviews', ReviewController::class);
+        Route::apiResource('/{product}/images', ProductImagesController::class);
     }) ;
 
 // create new shop
@@ -66,7 +66,7 @@ Route::post('/newShop', [ShopController::class,'newStore'])->name('Shop.newStore
 Route::apiResource('/externProduct', ExternPoductController::class);
 
 /// Cart Routes
- Route::group(['prefix'=>'/Shop'], function () {
+ Route::group(['prefix'=>'/shop'], function () {
      Route::get('{shop}/cart', [CartController::class,'index']);
      Route::post('{shop}/cart/{id}', [CartController::class,'add']);
      Route::delete('{shop}/cart/{id}', [CartController::class,'delete']);

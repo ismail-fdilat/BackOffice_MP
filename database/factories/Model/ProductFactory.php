@@ -28,7 +28,8 @@ class ProductFactory extends Factory
             'name' => $this->faker->word,
             'detail' => $this->faker->word,
             'price' =>  $this->faker->numberBetween(100, 300),
-            'stock' =>  $this->faker->randomDigit,
+            'stock' =>  $this->faker->numberBetween(10, 50),
+            'min_stock' =>  $this->faker->numberBetween(10, 20),
             'discount' => $this->faker->numberBetween(2, 30),
             'shop_id'=> function () {
                 return Shop::all()->random();

@@ -14,7 +14,8 @@
         "laravel/sanctum": "^2.10",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
-        "srmklive/paypal": "~3.0"
+        "srmklive/paypal": "~3.0",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
